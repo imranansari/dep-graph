@@ -63,6 +63,14 @@ describe('createFromDepTree simple dysmorphic', () => {
       { name: 'e', version: '5.0.0' },
       { name: 'root', version: '0.0.0' },
     ].sort(helpers.depSort));
+    expect(depGraph.getDepPkgs().sort(helpers.depSort)).toEqual([
+      { name: 'a', version: '1.0.0' },
+      { name: 'b', version: '1.0.0' },
+      { name: 'c', version: '1.0.0' },
+      { name: 'd', version: '0.0.1' },
+      { name: 'd', version: '0.0.2' },
+      { name: 'e', version: '5.0.0' },
+    ].sort(helpers.depSort));
   });
 
   test('getPathsToRoot', async () => {
@@ -134,6 +142,7 @@ describe('createFromDepTree 0 deps', () => {
     const depGraph = await depGraphLib.legacy.depTreeToGraph(depTree, 'npm');
 
     expect(depGraph.getPkgs()).toHaveLength(1);
+    expect(depGraph.getDepPkgs()).toHaveLength(0);
   });
 });
 
@@ -146,6 +155,7 @@ describe('createFromDepTree goof', () => {
     depGraph = await depGraphLib.legacy.depTreeToGraph(depTree, 'npm');
 
     expect(depGraph.getPkgs()).toHaveLength(439);
+    expect(depGraph.getDepPkgs()).toHaveLength(438);
   });
 
   test('check nodes', async () => {
@@ -188,6 +198,7 @@ describe('createFromDepTree with pkg that that misses a version', () => {
     const depGraph = await depGraphLib.legacy.depTreeToGraph(depTree, 'npm');
 
     expect(depGraph.getPkgs()).toHaveLength(3);
+    expect(depGraph.getDepPkgs()).toHaveLength(2);
 
     const depGraphInternal = depGraph as types.DepGraphInternal;
     expect(depGraphInternal.getPkgNodeIds({name: 'bar'} as any)).toEqual(['bar@']);
