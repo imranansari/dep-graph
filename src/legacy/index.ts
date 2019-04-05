@@ -16,6 +16,7 @@ interface DepTreeDep {
   dependencies?: {
     [depName: string]: DepTreeDep,
   };
+  labels?: object;
 }
 
 interface DepTree extends DepTreeDep {
@@ -32,6 +33,10 @@ async function depTreeToGraph(depTree: DepTree, pkgManagerName: string): Promise
     name: depTree.name,
     version: depTree.version,
   };
+
+  if (depTree.labels) {
+    (depTree as any).labels = depTree.labels;
+  }
 
   const pkgManagerInfo: types.PkgManager = {
     name: pkgManagerName,
@@ -81,6 +86,10 @@ async function buildGraph(
       name: depName,
       version: dep.version,
     };
+
+    if (dep.labels) {
+      (depPkg as any).labels = dep.labels;
+    }
 
     const depNodeId = getNodeId(depPkg.name, depPkg.version, subtreeHash);
 
@@ -217,6 +226,9 @@ async function buildSubtree(
   const depTree: DepTree = {};
   depTree.name = nodePkg.name;
   depTree.version = nodePkg.version;
+  if (nodePkg.labels) {
+    depTree.labels = nodePkg.labels;
+  }
 
   const depInstanceIds = depGraph.getNodeDepsNodeIds(nodeId);
   if (!depInstanceIds || depInstanceIds.length === 0) {

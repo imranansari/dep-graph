@@ -24,7 +24,7 @@ describe('fromJSON simple', () => {
       { name: 'c', version: '1.0.0' },
       { name: 'd', version: '0.0.1' },
       { name: 'd', version: '0.0.2' },
-      { name: 'e', version: '5.0.0' },
+      { name: 'e', version: '5.0.0', labels: { key: 'value' } },
       { name: 'root', version: '0.0.0' },
     ].sort(helpers.depSort));
   });
@@ -44,14 +44,14 @@ describe('fromJSON simple', () => {
 
     expect(graph.pkgPathsToRoot({ name: 'e', version: '5.0.0' })).toEqual([
       [
-        { name: 'e', version: '5.0.0' },
+        { name: 'e', version: '5.0.0', labels: { key: 'value' } },
         { name: 'd', version: '0.0.1' }, // note: d@0.0.1 from c@1.0.0
         { name: 'c', version: '1.0.0' },
         { name: 'a', version: '1.0.0' },
         { name: 'root', version: '0.0.0' },
       ],
       [
-        { name: 'e', version: '5.0.0' },
+        { name: 'e', version: '5.0.0', labels: { key: 'value' } },
         { name: 'd', version: '0.0.2' }, // note: d@0.0.2 from c@1.0.0
         { name: 'c', version: '1.0.0' },
         { name: 'b', version: '1.0.0' },

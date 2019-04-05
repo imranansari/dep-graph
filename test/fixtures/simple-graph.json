@@ -15,7 +15,10 @@
       "id": "e@5.0.0",
       "info": {
         "name": "e",
-        "version": "5.0.0"
+        "version": "5.0.0",
+        "labels": {
+          "key": "value"
+        }
       }
     },
     {

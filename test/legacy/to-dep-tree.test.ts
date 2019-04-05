@@ -137,7 +137,7 @@ describe('graphToDepTree with a linux pkgManager', () => {
         .toThrow('Incomplete .pkgManager, could not create .targetOS');
     });
   });
-})
+});
 
 test('graphs with cycles are not supported', async () => {
   const cyclicDepGraphData = helpers.loadFixture('cyclic-dep-graph.json');
